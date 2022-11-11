@@ -17,15 +17,19 @@ def format_temperature(temp):
 
 
 def convert_date(iso_string):
-    """Converts and ISO formatted date into a human readable format.
+    """Converts an ISO formatted date into a human readable format.
 
     Args:
         iso_string: An ISO date string..
     Returns:
         A date formatted like: Weekday Date Month Year e.g. Tuesday 06 July 2021
     """
-    pass
-
+    date = datetime.fromisoformat(iso_string)
+    year = date.strftime("%Y")
+    month = date.strftime("%B")
+    day = date.strftime("%d")
+    day_word = date.strftime("%A")
+    return f"{day_word} {day} {month} {year}"
 
 def convert_f_to_c(temp_in_farenheit):
     """Converts an temperature from farenheit to celcius.
