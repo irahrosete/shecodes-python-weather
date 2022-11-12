@@ -174,12 +174,13 @@ def generate_daily_summary(weather_data):
     Returns:
         A string containing the summary information.
     """
-    pass
-
-# ---- Friday 02 July 2021 ----
-#   Minimum Temperature: 9.4°C
-#   Maximum Temperature: 19.4°C
-
-# ---- Saturday 03 July 2021 ----
-#   Minimum Temperature: 13.9°C
-#   Maximum Temperature: 20.0°C
+    summary = ""
+    for item in weather_data:
+        min_temp = convert_f_to_c(item[1])
+        max_temp = convert_f_to_c(item[2])
+        summary += (
+            f"---- {convert_date(item[0])} ----\n"
+            f"  Minimum Temperature: {min_temp}{DEGREE_SYBMOL}\n"
+            f"  Maximum Temperature: {max_temp}{DEGREE_SYBMOL}\n\n"
+        )
+    return summary
