@@ -130,11 +130,40 @@ def generate_summary(weather_data):
     """Outputs a summary for the given weather data.
 
     Args:
-        weather_data: A list of lists, where each sublist represents a day of weather data.
+        weather_data: A list of lists, where each sublist represents a day of weather data in Fahrenheit.
     Returns:
-        A string containing the summary information.
+        A string containing the summary information in Celsius.
     """
-    pass
+    date_list = []
+    for item in weather_data:
+        date_list.append(item[0])
+
+    min_list = []
+    for item in weather_data:
+        min_list.append(item[1])
+
+    date_low_tuple = find_min(min_list)
+    date_low = convert_date(date_list[date_low_tuple[1]])
+
+    max_list = []
+    for item in weather_data:
+        max_list.append(item[2])
+
+    date_high_tuple = find_max(max_list)
+    date_high = convert_date(date_list[date_high_tuple[1]])
+
+    lowest_in_celsius = convert_f_to_c(min(min_list))
+    highest_in_celsius = convert_f_to_c(max(max_list))
+    ave_low_in_celsius = convert_f_to_c(calculate_mean(min_list))
+    ave_high_in_celsius = convert_f_to_c(calculate_mean(max_list))
+
+    return (
+        f"{len(weather_data)} Day Overview\n"
+        f"  The lowest temperature will be {lowest_in_celsius}{DEGREE_SYBMOL}, and will occur on {date_low}.\n"
+        f"  The highest temperature will be {highest_in_celsius}{DEGREE_SYBMOL}, and will occur on {date_high}.\n"
+        f"  The average low this week is {ave_low_in_celsius}{DEGREE_SYBMOL}.\n"
+        f"  The average high this week is {ave_high_in_celsius}{DEGREE_SYBMOL}.\n"
+    )
 
 
 def generate_daily_summary(weather_data):
@@ -146,3 +175,11 @@ def generate_daily_summary(weather_data):
         A string containing the summary information.
     """
     pass
+
+# ---- Friday 02 July 2021 ----
+#   Minimum Temperature: 9.4°C
+#   Maximum Temperature: 19.4°C
+
+# ---- Saturday 03 July 2021 ----
+#   Minimum Temperature: 13.9°C
+#   Maximum Temperature: 20.0°C
