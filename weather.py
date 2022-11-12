@@ -31,6 +31,7 @@ def convert_date(iso_string):
     day_word = date.strftime("%A")
     return f"{day_word} {day} {month} {year}"
 
+
 def convert_f_to_c(temp_in_farenheit):
     """Converts a temperature from farenheit to celcius.
 
@@ -40,6 +41,7 @@ def convert_f_to_c(temp_in_farenheit):
         A float representing a temperature in degrees celcius, rounded to 1dp.
     """
     return round(((float(temp_in_farenheit) - 32) * 5 / 9), 1)
+
 
 def calculate_mean(weather_data):
     """Calculates the mean value from a list of numbers.
@@ -54,6 +56,7 @@ def calculate_mean(weather_data):
         num_weather_data.append(float(item))
 
     return sum(num_weather_data) / len(weather_data)
+
 
 def load_data_from_csv(csv_file):
     """Reads a csv file and stores the data in a list.
@@ -87,14 +90,6 @@ def find_min(weather_data):
         return min_value, min_value_index
     return ()
 
-# num_weather_data = []
-
-# for item in [3,2,5,0]:
-#     num_weather_data.append(float(item))
-
-# min_value = min(num_weather_data)
-# min_value_index = num_weather_data.index(min_value)
-# print(min_value, min_value_index)
 
 def find_max(weather_data):
     """Calculates the maximum value in a list of numbers.
@@ -102,9 +97,20 @@ def find_max(weather_data):
     Args:
         weather_data: A list of numbers.
     Returns:
-        The maximum value and it's position in the list.
+        The maximum value and its position in the list.
     """
-    pass
+    num_weather_data = []
+
+    if weather_data != []:
+        for item in weather_data:
+            num_weather_data.append(float(item))
+
+        max_value = max(num_weather_data)
+        reversed_num_weather_data = num_weather_data[::-1]
+        max_value_index = len(num_weather_data) - 1 - reversed_num_weather_data.index(max_value)
+
+        return max_value, max_value_index
+    return ()
 
 
 def generate_summary(weather_data):
