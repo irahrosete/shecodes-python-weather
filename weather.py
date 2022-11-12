@@ -31,6 +31,7 @@ def convert_date(iso_string):
     day_word = date.strftime("%A")
     return f"{day_word} {day} {month} {year}"
 
+
 def convert_f_to_c(temp_in_farenheit):
     """Converts a temperature from farenheit to celcius.
 
@@ -41,6 +42,7 @@ def convert_f_to_c(temp_in_farenheit):
     """
     return round(((float(temp_in_farenheit) - 32) * 5 / 9), 1)
 
+
 def calculate_mean(weather_data):
     """Calculates the mean value from a list of numbers.
 
@@ -49,7 +51,11 @@ def calculate_mean(weather_data):
     Returns:
         A float representing the mean value.
     """
-    pass
+    num_weather_data = []
+    for item in weather_data:
+        num_weather_data.append(float(item))
+
+    return sum(num_weather_data) / len(weather_data)
 
 
 def load_data_from_csv(csv_file):
@@ -60,7 +66,20 @@ def load_data_from_csv(csv_file):
     Returns:
         A list of lists, where each sublist is a (non-empty) line in the csv file.
     """
-    pass
+    with open(csv_file, encoding="utf8") as weather_file:
+        weather_data = csv.reader(weather_file)
+        next(weather_data)
+
+        weather_data_list = []
+
+        for line in weather_data:
+            if line != []:
+                new_line = []
+                new_line.append(line.pop(0))
+                for item in line:
+                    new_line.append(int(item))
+                weather_data_list.append(new_line)
+        return(weather_data_list)
 
 
 def find_min(weather_data):
@@ -69,9 +88,20 @@ def find_min(weather_data):
     Args:
         weather_data: A list of numbers.
     Returns:
-        The minium value and it's position in the list.
+        The minium value and its position in the list.
     """
-    pass
+    num_weather_data = []
+
+    if weather_data != []:
+        for item in weather_data:
+            num_weather_data.append(float(item))
+
+        min_value = min(num_weather_data)
+        reversed_num_weather_data = num_weather_data[::-1]
+        min_value_index = len(num_weather_data) - 1 - reversed_num_weather_data.index(min_value)
+
+        return min_value, min_value_index
+    return ()
 
 
 def find_max(weather_data):
@@ -80,20 +110,60 @@ def find_max(weather_data):
     Args:
         weather_data: A list of numbers.
     Returns:
-        The maximum value and it's position in the list.
+        The maximum value and its position in the list.
     """
-    pass
+    num_weather_data = []
+
+    if weather_data != []:
+        for item in weather_data:
+            num_weather_data.append(float(item))
+
+        max_value = max(num_weather_data)
+        reversed_num_weather_data = num_weather_data[::-1]
+        max_value_index = len(num_weather_data) - 1 - reversed_num_weather_data.index(max_value)
+
+        return max_value, max_value_index
+    return ()
 
 
 def generate_summary(weather_data):
     """Outputs a summary for the given weather data.
 
     Args:
-        weather_data: A list of lists, where each sublist represents a day of weather data.
+        weather_data: A list of lists, where each sublist represents a day of weather data in Fahrenheit.
     Returns:
-        A string containing the summary information.
+        A string containing the summary information in Celsius.
     """
-    pass
+    date_list = []
+    for item in weather_data:
+        date_list.append(item[0])
+
+    min_list = []
+    for item in weather_data:
+        min_list.append(item[1])
+
+    date_low_tuple = find_min(min_list)
+    date_low = convert_date(date_list[date_low_tuple[1]])
+
+    max_list = []
+    for item in weather_data:
+        max_list.append(item[2])
+
+    date_high_tuple = find_max(max_list)
+    date_high = convert_date(date_list[date_high_tuple[1]])
+
+    lowest_in_celsius = convert_f_to_c(min(min_list))
+    highest_in_celsius = convert_f_to_c(max(max_list))
+    ave_low_in_celsius = convert_f_to_c(calculate_mean(min_list))
+    ave_high_in_celsius = convert_f_to_c(calculate_mean(max_list))
+
+    return (
+        f"{len(weather_data)} Day Overview\n"
+        f"  The lowest temperature will be {lowest_in_celsius}{DEGREE_SYBMOL}, and will occur on {date_low}.\n"
+        f"  The highest temperature will be {highest_in_celsius}{DEGREE_SYBMOL}, and will occur on {date_high}.\n"
+        f"  The average low this week is {ave_low_in_celsius}{DEGREE_SYBMOL}.\n"
+        f"  The average high this week is {ave_high_in_celsius}{DEGREE_SYBMOL}.\n"
+    )
 
 
 def generate_daily_summary(weather_data):
@@ -105,3 +175,11 @@ def generate_daily_summary(weather_data):
         A string containing the summary information.
     """
     pass
+
+# ---- Friday 02 July 2021 ----
+#   Minimum Temperature: 9.4°C
+#   Maximum Temperature: 19.4°C
+
+# ---- Saturday 03 July 2021 ----
+#   Minimum Temperature: 13.9°C
+#   Maximum Temperature: 20.0°C
