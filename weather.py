@@ -1,6 +1,5 @@
 import csv
 from datetime import datetime
-import statistics
 
 DEGREE_SYBMOL = u"\N{DEGREE SIGN}C"
 
@@ -73,10 +72,29 @@ def find_min(weather_data):
     Args:
         weather_data: A list of numbers.
     Returns:
-        The minium value and it's position in the list.
+        The minium value and its position in the list.
     """
-    pass
+    num_weather_data = []
 
+    if weather_data != []:
+        for item in weather_data:
+            num_weather_data.append(float(item))
+
+        min_value = min(num_weather_data)
+        reversed_num_weather_data = num_weather_data[::-1]
+        min_value_index = len(num_weather_data) - 1 - reversed_num_weather_data.index(min_value)
+
+        return min_value, min_value_index
+    return ()
+
+# num_weather_data = []
+
+# for item in [3,2,5,0]:
+#     num_weather_data.append(float(item))
+
+# min_value = min(num_weather_data)
+# min_value_index = num_weather_data.index(min_value)
+# print(min_value, min_value_index)
 
 def find_max(weather_data):
     """Calculates the maximum value in a list of numbers.
